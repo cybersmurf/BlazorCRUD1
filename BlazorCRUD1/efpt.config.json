@@ -1,0 +1,46 @@
+﻿{
+   "ContextClassName": "TprContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "DoNotCombineNamespace": false,
+   "IdReplace": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "BlazorCRUD1",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "c_order"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "customer"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "operation"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "order_stav"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "readdata"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "worker"
+      }
+   ],
+   "UseDatabaseNames": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseSpatial": false
+}

@@ -1,0 +1,65 @@
+﻿@page "/addArticle"
+@inject IArticleManager articleManager
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@inject IToastService toastService
+
+<h1>
+    Přidat zakázku
+</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input for="Name" class="form-control" @bind-value="@article.name" />
+            </div>
+            <div class="form-group">
+              <label for="Note" class="control-label">Poznámka</label>   
+                <input for="Note" class="form-control" @bind-value="@article.note"/>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" @onclick="() => CreateArticle()">Uložit</button>
+                <button type="button" class="btn btn-danger" @onclick="() => cancel()">Zrušit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+
+    c_order article = new c_order();
+
+    protected async Task CreateArticle()
+    {
+        var result = await articleManager.Create(article);
+
+        navigationManager.NavigateTo("/articlelist");
+
+        if (result > 0)
+        {
+            await toastService.AddToastAsync(
+        message: String.Format("Zakázka {0} uložena",article.name),
+        type: "success",
+        animation: "fade",
+        autoClose: 5000
+    );
+        }
+        else
+        {
+            await toastService.AddToastAsync(
+        message: String.Format("Zakázku {0} se nepodařilo uložit", article.name),
+        type: "error",
+        animation: "fade",
+        autoClose: 5000
+    );
+        }
+
+
+    }
+
+    void cancel()
+    {
+        navigationManager.NavigateTo("/articlelist");
+    }
+}

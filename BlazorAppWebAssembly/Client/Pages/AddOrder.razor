@@ -1,0 +1,50 @@
+﻿@using BlazorAppWebAssembly.Shared.Models
+@page "/addorder"
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@inject HttpClient Http
+
+<h1>Create</h1>
+<h3>Employee</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input for="name" class="form-control" @bind="@emp.name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="priorita" class="control-label">Gender</label>
+                <select asp-for="priorita" class="form-control" @bind="@emp.priorita">
+                    <option value="">-- Select Gender --</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="note" class="control-label">Department</label>
+                <input asp-for="note" class="form-control" @bind="@emp.note" />
+            </div>
+            <div class="form-group">
+                <label asp-for="note2" class="control-label">City</label>
+                <input asp-for="note2" class="form-control" @bind="@emp.note2" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default" @onclick="CreateCorder">Save</button>
+                <button class="btn" @onclick="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    c_order emp = new c_order();
+    public async Task CreateCorder()
+    {
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Corder/Create", emp);
+        navigationManager.NavigateTo("/fetchorders");
+    }
+    void cancel()
+    {
+        navigationManager.NavigateTo("/fetchorders");
+    }
+}

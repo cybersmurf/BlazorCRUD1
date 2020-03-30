@@ -1,0 +1,55 @@
+﻿@page "/fetchorders"
+@using BlazorAppWebAssembly.Shared.Models
+@inject HttpClient Http
+<h1>Zakázky</h1>
+<p>This component demonstrates fetching Employee data from the server.</p>
+<p>
+    <a href="/addorder">Vytvořit zakázku</a>
+</p>
+@if (corderList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in corderList)
+            {
+                <tr>
+                    <td>@emp.bar_id</td>
+                    <td>@emp.name</td>
+                    <td>@emp.start</td>
+                    <td>@emp.finish</td>
+                    <td>@emp.note</td>
+                    <td>
+                        <a href='/editemployee/@emp.id'>Edit</a>  |
+                        <a href='/delete/@emp.id'>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@functions {
+    c_order[] corderList;
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        corderList = await Http.GetJsonAsync<c_order[]>
+         ("/api/Corder/Index");
+    }
+}
