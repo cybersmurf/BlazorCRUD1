@@ -14,7 +14,7 @@ using BlazorAppWebAssembly.Shared.Contracts;
 namespace BlazorAppWebAssembly.Server.Controllers
 {
     [Route("api/[controller]")]
-    public class CorderController : Controller
+    public class CorderController : Controller,ICorderManager
     {
         private static TprContext context;
         private CorderDataAccessLayer objcorder;
@@ -42,11 +42,19 @@ namespace BlazorAppWebAssembly.Server.Controllers
             return objcorder.GetAllOrders();
         }
 
-        [HttpGet ("/ListAll")]
+        [HttpGet]
+        [Route("/api/Corder/ListAll")]
         //[HttpGet("{skip}{take}{orderby}{direction}{search}")]      
         public IEnumerable<c_order> ListAll(int skip, int take, string orderby, string search, string direction = "DESC" )
         {
             return _mngOrder.ListAll(skip, take, orderby, direction, search).Result;
+        }
+
+        [HttpGet]
+        [Route("/api/Corder/Count")]
+        public int Count(string search)
+        {
+            return _mngOrder.Count(search).Result;
         }
 
         [HttpGet]
@@ -105,6 +113,37 @@ namespace BlazorAppWebAssembly.Server.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        Task<int> ICorderManager.Create(c_order cOrder)
+        {
+            return _mngOrder.Create(cOrder);
+            //throw new NotImplementedException();
+        }
+
+        Task<int> ICorderManager.Delete(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> ICorderManager.Count(string search)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> Update(c_order cOrder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<c_order> GetById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<c_order>> ICorderManager.ListAll(int skip, int take, string orderBy, string direction, string search)
+        {
+            throw new NotImplementedException();
         }
     }
 }

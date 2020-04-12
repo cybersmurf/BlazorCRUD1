@@ -1,4 +1,5 @@
 ﻿@page "/articlelist"
+@inject HttpClient Http
 @inject ICorderManager articleManager
 @using System.Text
 
@@ -101,7 +102,7 @@ else
                 <RadzenGridColumn TItem="c_order" Property="id" Title="Order ID" />
                 <RadzenGridColumn TItem="c_order" Property="name" Title="Order Name" />
             </Columns>
-            </RadzenGrid>
+        </RadzenGrid>
     </div>
 
 }
@@ -135,12 +136,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+
         //display total page buttons
         pagerSize = 3;
         pageSize = 5;
         curPage = 1;
-        articleModel = await articleManager.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
-        totalRecords = await articleManager.Count(searchTerm);
+                articleModel = await Http.GetJsonAsync<List<c_order>>
+                 (String.Format("/api/Corder/ListAll?skip={0}&take={1}&orderBy={2}&direction={3}&searchTerm={4}", (curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm));
+//        articleModel = await articleManager.ListAll((curPage - 1) * pageSize, pageSize, sortColumnName, sortDir, searchTerm);
+        totalRecords = await Http.GetJsonAsync<int>(String.Format("/api/Corder/Count?searchTerm={0}", searchTerm));//10;//await articleManager.Count(searchTerm);
         totalPages = (int)Math.Ceiling(totalRecords / (decimal)pageSize);
         SetPagerSize("forward");
     }
